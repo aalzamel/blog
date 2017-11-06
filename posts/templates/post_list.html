@@ -23,21 +23,36 @@
 		p {
 			color: #34495e;
 		}
+		body {
+			background-color: #bdc3c7;
+			margin-top: 100px;
+		}
+
+		.postlist {
+			background-color: #ffffff;
+			border-radius: 5px;
+			padding: 15px 15px 15px 15px;
+			margin-left: 3%;
+			margin-right: 3%;
+		}
 	</style>
 
 </head>
 <body>
 	{% for x in post_items %}
-	<ul>
-	<h1><a href="/detail/{{x.id}}"> {{x.title}} </a></h1>
-	<p>{{x.content}}</p>
-	<h4>ID | {{x.id}} </h4>
-	<h4>Created | {{x.timestamp}}</h4>
-	<hr>
+	<div class="postlist">
+		<!-- 
+			<h1><a href="{% url 'detail' post_id=x.id %}"> {{x.title}} </a></h1> 
+			the above method and the below method are similar but the below (model method) is easier to use it multiple times given the short syntax.
+		-->
+		<h1><a href="{{x.get_absolute_url}}"> {{x.title}} </a></h1>
+		<p>{{x.content}}</p>
+		<h4>ID | {{x.id}} </h4>
+		<h4>Created | {{x.timestamp}}</h4>
+	</div>
 	<br>
-	</ul>
 	{% endfor %}
-
+ 
 
 </body>
 </html>
