@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Post List</title>
+
+	<style>
+		h1 {
+			text-transform: capitalize;
+			font-family: sans-serif;
+		}
+		h4 {
+			font-family: sans-serif;
+			color: #34495e;
+			text-transform: lowercase;
+		}
+		a:visited {
+			color: #3498db;
+			text-decoration: none;
+		}
+		a {
+			color: #3498db;
+			text-decoration: none;
+		}
+		p {
+			color: #34495e;
+
+		}
+	</style>
+</head>
+<body>
+	<ul>
+	<h1>Title | {{items.title}}</a></h1>
+	<p>{{items.content|linebreaks}}</p>
+	<h4>ID | {{items.id}} </h4>
+	<h4>Created | {{items.timestamp}}</h4>
+	<hr>
+	<br>
+	<script>
+  		document.write('<a href="' + document.referrer + '"> << back</a>');
+	</script>
+	</ul>
+
+
+</body>
+</html>
