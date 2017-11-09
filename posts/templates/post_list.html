@@ -1,58 +1,26 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Post List</title>
-	<style>
-		h1 {
-			text-transform: capitalize;
-			font-family: sans-serif;
-		}
-		h4 {
-			font-family: sans-serif;
-			color: #34495e;
-			text-transform: lowercase;
-		}
-		a:visited {
-			color: #3498db;
-			text-decoration: none;
-		}
-		a {
-			color: #3498db;
-			text-decoration: none;
-		}
-		p {
-			color: #34495e;
-		}
-		body {
-			background-color: #bdc3c7;
-			margin-top: 100px;
-		}
+{% extends "base.html" %}
 
-		.postlist {
-			background-color: #ffffff;
-			border-radius: 5px;
-			padding: 15px 15px 15px 15px;
-			margin-left: 3%;
-			margin-right: 3%;
-		}
-	</style>
+{% block heading %} List {% endblock heading %}
 
-</head>
-<body>
-	{% for x in post_items %}
+{% block content %} 
+
+<!-- pulling the header.html file from the templates -->
+
+{% include "header.html" %}
+
+
+
+<!-- listing the blog items -->
+
+	{% for x in post_items reversed %}
 	<div class="postlist">
-		<!-- 
-			<h1><a href="{% url 'detail' post_id=x.id %}"> {{x.title}} </a></h1> 
-			the above method and the below method are similar but the below (model method) is easier to use it multiple times given the short syntax.
-		-->
 		<h1><a href="{{x.get_absolute_url}}"> {{x.title}} </a></h1>
 		<p>{{x.content}}</p>
 		<h4>ID | {{x.id}} </h4>
 		<h4>Created | {{x.timestamp}}</h4>
+		<h4><a href="{% url 'posts:post_update' post_id=x.id %}"><button class="btn-mylist">Update</button></a> | <a href="{% url 'posts:post_delete' post_id=x.id %}"><button class="btn-mylist">Delete</button></a></h4>
 	</div>
 	<br>
 	{% endfor %}
  
-
-</body>
-</html>
+{% endblock content %} 

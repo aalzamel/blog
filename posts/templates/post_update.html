@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block heading %} Update {% endblock heading %}
+
+{% block content %} 
+
+	{% include "header.html" %}
+	<div class="postform">
+		<form action="{% url 'posts:post_update' post_id=item.id %}" method="POST">
+			{% csrf_token %}
+			{{form.as_p}}
+			<input type="submit" value="Update">
+		</form>
+	</div>
+
+
+{% endblock content %} 

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block heading %} Create {% endblock heading %}
+
+{% block content %} 
+
+	{% include "header.html" %}
+	<div class="postform">
+		<form action="{% url 'posts:post_create' %}" method="POST">
+			{% csrf_token %}
+			{{form.as_p}}
+			<input type="submit" value="Submit">
+		</form>
+	</div>
+
+{% endblock content %} 
