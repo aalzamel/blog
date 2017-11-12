@@ -4,12 +4,11 @@
 
 {% block content %} 
 
-	{% include "header.html" %}
-	<div class="postform">
-		<form action="{% url 'posts:post_update' post_id=item.id %}" method="POST">
+	<div class="form-group">
+		<form action="{% url 'posts:post_update' post_id=item.id %}" enctype="multipart/form-data" method="POST">
 			{% csrf_token %}
 			{{form.as_p}}
-			<input type="submit" value="Update">
+			<input class ="btn btn-success" type="submit" value="Update">
 		</form>
 	</div>
 

@@ -3,17 +3,28 @@
 {% block heading %} Detail {% endblock heading %}
 
 {% block content %} 
-
-	<ul>
-	<h1>Title | {{items.title}}</a></h1>
+<div class="col-11">
+	{% if items.img %}
+        <img src="{{items.img.url}}" alt="" class="img-responsive">
+    {% endif %}
+	<h1>{{items.title}}</h1>
 	<p>{{items.content|linebreaks}}</p>
-	<h4>ID | {{items.id}} </h4>
-	<h4>Created | {{items.timestamp}}</h4>
-	<hr>
-	<br>
-	<script>
-  		document.write('<a href="' + document.referrer + '"> << back</a>');
-	</script>
-	</ul>
+	ID | {{items.id}} 
+	Created | {{items.timestamp|timesince}}
+<br>
+<br>
+{% comment %}
 
+<a href="{% url 'posts:post_list' %}"><button class="btn btn-primary">Back</button></a> 
+
+{% endcomment %}
+
+<script>
+function goBack() {
+    window.history.back()
+}
+</script>
+<input type="button" class="btn btn-primary" value="Back" onclick="goBack()">
+
+</div>
 {% endblock content %} 

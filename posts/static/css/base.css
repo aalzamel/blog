@@ -1,4 +1,4 @@
-label {
+/* label {
  	vertical-align: top;
 
  }
@@ -27,8 +27,7 @@ div.postform {
 	border-radius: 5px;
 	padding: 15px 15px 15px 15px;
 
-.btn-mylist {
-  color: #007bff;
-  background-color: #fff;
-  border-color: #007bff;
+*/
+.item-mgn {
+	margin-top: 10px;
 }
