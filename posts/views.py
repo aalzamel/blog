@@ -3,6 +3,8 @@ from .models import Post
 from .forms import PostForm
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from urllib.parse import quote
+from django.http import Http404
 
 # Test post model
 
@@ -45,11 +47,13 @@ def post_list(request):
 
 # Detailed page of the post
 
-def post_detail(request, post_id):
+def post_detail(request, post_slug):
+
 	#item = Post.objects.get(id=1000)
-	item = get_object_or_404(Post, id=post_id)
+	item = get_object_or_404(Post, slug=post_slug)
 	context = {
 		"items": item,
+		"share_string": quote(item.content),
 	}
 
 	return render(request, "detail.html", context)
@@ -72,6 +76,8 @@ def post_detail(request, post_id):
 # Creating a post
 
 def post_create(request):
+	if not request.user.is_staff:
+		raise Http404
 	form = PostForm()
 	print(request.method)
 	if request.method == "POST":
@@ -92,8 +98,10 @@ def post_create(request):
 
 # Updating a post
 
-def post_update(request,post_id):
-	item = Post.objects.get(id=post_id)
+def post_update(request,post_slug):
+	if not request.user.is_staff:
+		raise Http404
+	item = Post.objects.get(slug=post_slug)
 
 	form = PostForm(request.POST or None, request.FILES or None, instance=item)
 
@@ -112,8 +120,10 @@ def post_update(request,post_id):
 
 # Deleting a post
 
-def post_delete(request,post_id):
-	Post.objects.get(id=post_id).delete()
+def post_delete(request,post_slug):
+	if not request.user.is_staff:
+		raise Http404
+	Post.objects.get(slug=post_slug).delete()
 	messages.warning(request, "Post have been deleted")
 	return redirect("posts:post_list")
 

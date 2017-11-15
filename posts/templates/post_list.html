@@ -22,9 +22,9 @@
 				ID | {{x.id}} <br>
 				Created | {{x.timestamp|timesince}}<br>
 	    </p>
-	    <a href="{% url 'posts:detail' post_id=x.id %}" class="btn btn-primary">Read</a>
-	    <a href="{% url 'posts:post_update' post_id=x.id %}" class="btn btn-success">Update</a>
-	    <a href="{% url 'posts:post_delete' post_id=x.id %}" class="btn btn-danger">Delete</a>
+	    <a href="{% url 'posts:detail' post_slug=x.slug %}" class="btn btn-primary">Read</a>
+	    <a href="{% url 'posts:post_update' post_slug=x.slug %}" class="btn btn-success">Update</a>
+	    <a href="{% url 'posts:post_delete' post_slug=x.slug %}" class="btn btn-danger">Delete</a>
 	  </div>
 	</div>
 	</div>
