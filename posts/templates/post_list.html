@@ -5,53 +5,74 @@
 {% block content %} 
 
 
+
 <div class="row">
 	{% for x in post_items reversed %}
 	<div class="col-sm-12 col-md-6 col-lg-4 item-mgn">
 	<div class="card">
 	  <div class="card-header">
-	    <a href="{{x.get_absolute_url}}"> 
-	    	<br> {{x.title}} </a>
+		<a href="{{x.get_absolute_url}}"> 
+			<br> {{x.title}} </a> 
+			{% if x.draft %}
+				<span class="badge badge-warning">draft</span>
+			{% endif %}
+			{% if x.publish_date > today %}
+				<span class="badge badge-info">upcoming</span>
+			{% endif %}
 	  </div>
 	  <div class="card-body">
-	  	    {% if x.img %}
-    			<img src="{{x.img.url}}" alt="" class="card-img-top">
+			{% if x.img %}
+				<img src="{{x.img.url}}" alt="" class="card-img-top">
 			{% endif %}
-	    <p class="card-text">
-	    	{{x.content|linebreaks|truncatechars:100}} <br>
+		<p class="card-text">
+			{{x.content|linebreaks|truncatechars:100}} <br>
 				ID | {{x.id}} <br>
 				Created | {{x.timestamp|timesince}}<br>
-	    </p>
-	    <a href="{% url 'posts:detail' post_slug=x.slug %}" class="btn btn-primary">Read</a>
-	    <a href="{% url 'posts:post_update' post_slug=x.slug %}" class="btn btn-success">Update</a>
-	    <a href="{% url 'posts:post_delete' post_slug=x.slug %}" class="btn btn-danger">Delete</a>
-	  </div>
+				Author | {{x.author.first_name}} {{x.author.last_name}}
+		</p>
+		
+
+		<a href="{% url 'posts:detail' post_slug=x.slug %}" class="btn btn-primary">Read</a>
+		
+
+		<a href="{% url 'posts:post_update' post_slug=x.slug %}" class="btn btn-success">Update</a>
+		
+
+		<a href="{% url 'posts:post_delete' post_slug=x.slug %}" class="btn btn-danger">Delete</a>
+
+		</div>
 	</div>
 	</div>
+
+	{% empty %}
+    <h1>Sorry, no search results for {{request.GET.q}}</h1>
 
 	{% endfor %}
 
 
+	</div>
 
-</div>
+		<form class="form-group" action="{% url 'posts:post_list' %}" method="GET">
+			<input type="text" name="q" placeholder="Search..." value="{{request.GET.q}}">
+			<input type="submit" value="Search" class="btn btn-primary">
 
-<nav aria-label="Page navigation example">
-  <ul class="pagination justify-content-center">
-    <li class="page-item">
-  	{% if post_items.has_previous %}
-        <a class="page-link" href="?page={{ post_items.previous_page_number }}">Previous</a></li>
-    {% endif %}
-	
-	<li class="page-item"><a class="page-link" href="#">
-		{{ post_items.number }}
-	</a></li>
+	<nav aria-label="Page navigation example">
+	  	<ul class="pagination justify-content-center">
+			<li class="page-item">
+			{% if post_items.has_previous %}
+				<a class="page-link" href="?page={{ post_items.previous_page_number }}&q={{request.GET.q}}">Previous</a></li>
+			{% endif %}
+			
+			<li class="page-item"><a class="page-link" href="#">
+				{{ post_items.number }}
+			</a></li>
 
-    <li class="page-item">
-	{% if post_items.has_next %}
-            <a class="page-link" href="?page={{ post_items.next_page_number }}">Next</a></li>
-    {% endif %}
-  </ul>
-</nav>
+			<li class="page-item">
+			{% if post_items.has_next %}
+					<a class="page-link" href="?page={{ post_items.next_page_number }}&q={{request.GET.q}}">Next</a></li>
+			{% endif %}
+		</ul>
+	</nav>
 
 
 

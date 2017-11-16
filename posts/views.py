@@ -5,6 +5,8 @@ from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from urllib.parse import quote
 from django.http import Http404
+from django.utils import timezone
+from django.db.models import Q
 
 # Test post model
 
@@ -24,8 +26,29 @@ def post(request):
 def post_list(request):
 	# To apply ordering on a view level
 	# thelist  = Post.objects.all().order_by('id', '-title')
-	thelist  = Post.objects.all()
+	today = timezone.now()
+
+
+
+	if request.user.is_staff:
+		thelist  = Post.objects.all()
+	else:
+		thelist = Post.objects.filter(draft=False, publish_date__lte=today)
+
+	query = request.GET.get('q')
+	if query:
+		thelist = thelist.filter(
+		Q(title__icontains=query)|
+        Q(content__icontains=query)|
+        Q(author__first_name__icontains=query)|
+        Q(author__last_name__icontains=query)
+		).distinct()
+
+
 	paginator = Paginator(thelist, 9)
+
+
+
 
 	page = request.GET.get('page')
 	try:
@@ -39,6 +62,7 @@ def post_list(request):
 
 	context = {
 		"post_items": thelist,
+		"today": today,
 	}
 
 	return render(request, "post_list.html", context)
@@ -48,9 +72,12 @@ def post_list(request):
 # Detailed page of the post
 
 def post_detail(request, post_slug):
-
-	#item = Post.objects.get(id=1000)
 	item = get_object_or_404(Post, slug=post_slug)
+
+	if not request.user.is_staff:
+		if item.draft or item.publish_date > timezone.now():
+			raise Http404
+	#item = Post.objects.get(id=1000)
 	context = {
 		"items": item,
 		"share_string": quote(item.content),
@@ -76,16 +103,16 @@ def post_detail(request, post_slug):
 # Creating a post
 
 def post_create(request):
-	if not request.user.is_staff:
-		raise Http404
+	if not request.user.is_authenticated():
+		raise Http404	
 	form = PostForm()
-	print(request.method)
 	if request.method == "POST":
 		form = PostForm(request.POST, request.FILES or None)
-		print('if statment is passed')
 		if form.is_valid():
-			print('form is valid')
-			form.save()
+			item = form.save(commit=False)
+			item.author = request.user
+			item.save()
+
 			messages.success(request, " Awesome, a blog post has been added")
 			return redirect("posts:post_list")
 	context = {
@@ -99,9 +126,11 @@ def post_create(request):
 # Updating a post
 
 def post_update(request,post_slug):
-	if not request.user.is_staff:
-		raise Http404
+	
 	item = Post.objects.get(slug=post_slug)
+
+	if request.user != item.author and not request.user.is_staff:
+		raise Http404
 
 	form = PostForm(request.POST or None, request.FILES or None, instance=item)
 
