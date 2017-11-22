@@ -31,3 +31,26 @@ div.postform {
 .item-mgn {
 	margin-top: 10px;
 }
+
+.nav-bar-bottom-mgn {
+	margin-bottom: 15px;
+}
+
+.nav-bar-top-mgn {
+	margin-top: 15px;
+}
+
+.input-search-color {
+    border-color: #green;
+}
+
+.detail-img-max-width {
+	max-width: 100%;
+	margin-bottom: 15px;
+}
+
+.detail-content {
+	background-color: #ecf0f1;
+	padding: 10px 15px;
+	border-radius: 10px;
+}

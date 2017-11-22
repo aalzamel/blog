@@ -10,27 +10,11 @@
 
 </head>
 <body>
-	
-		<!-- top nav starts here -->
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		  <a class="navbar-brand" href="#">MY BLOG</a>
-		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-		    <span class="navbar-toggler-icon"></span>
-		  </button>
-		  <div class="collapse navbar-collapse" id="navbarNav">
-		    <ul class="navbar-nav">
-		      <li class="nav-item active">
-		        <a class="nav-link" href="{% url 'posts:post_list' %}">LIST<span class="sr-only">(current)</span></a>
-		      </li>
-		      <li class="nav-item">
-		        <a class="nav-link" href="{% url 'posts:post_create' %}">CREATE</a>
-		      </li>
-		   
-		    </ul>
-		  </div>
-		</nav>
+		<div class="container">		<!-- top nav starts here -->
+
+			{% include "navbar.html" %}
 			{% include "messages.html" %}
-		<div class="container">
+
 
 
 

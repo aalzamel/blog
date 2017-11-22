@@ -4,7 +4,6 @@ from django.db.models.signals import pre_save
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 
-
 class Post(models.Model):
 	title = models.CharField(max_length=255)
 	author = models.ForeignKey(User, default=1)
@@ -51,4 +50,9 @@ def pre_save_post_receiver(*args, **kwargs):
 
 pre_save.connect(pre_save_post_receiver, sender=Post)
 
+
+class Like(models.Model):
+	user = models.ForeignKey(User)
+	post = models.ForeignKey(Post)
+	timestamp = models.DateTimeField(auto_now_add=True)
 

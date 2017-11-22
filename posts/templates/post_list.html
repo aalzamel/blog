@@ -1,47 +1,48 @@
 {% extends "base.html" %}
 
+{% load crispy_forms_tags %}
+
 {% block heading %} List {% endblock heading %}
 
 {% block content %} 
 
 
 
+
 <div class="row">
 	{% for x in post_items reversed %}
 	<div class="col-sm-12 col-md-6 col-lg-4 item-mgn">
-	<div class="card">
-	  <div class="card-header">
-		<a href="{{x.get_absolute_url}}"> 
-			<br> {{x.title}} </a> 
-			{% if x.draft %}
-				<span class="badge badge-warning">draft</span>
-			{% endif %}
-			{% if x.publish_date > today %}
-				<span class="badge badge-info">upcoming</span>
-			{% endif %}
-	  </div>
-	  <div class="card-body">
-			{% if x.img %}
-				<img src="{{x.img.url}}" alt="" class="card-img-top">
-			{% endif %}
-		<p class="card-text">
-			{{x.content|linebreaks|truncatechars:100}} <br>
-				ID | {{x.id}} <br>
-				Created | {{x.timestamp|timesince}}<br>
-				Author | {{x.author.first_name}} {{x.author.last_name}}
-		</p>
-		
+		<div class="card">
+	  		<div class="card-header">
+				<a href="{{x.get_absolute_url}}"> 
+					<br> {{x.title}} </a> 
+					{% if x.draft %}
+						<span class="badge badge-warning">draft</span>
+					{% endif %}
+					{% if x.publish_date > today %}
+						<span class="badge badge-info">upcoming</span>
+					{% endif %}
+			</div>
+		  <div class="card-body">
+				{% if x.img %}
+					<img src="{{x.img.url}}" alt="" class="card-img-top">
+				{% endif %}
+				<p class="card-text">
+					{{x.content|linebreaks|truncatechars:100}} <br>
+					ID | {{x.id}} <br>
+					Created | {{x.timestamp|timesince}}<br>
+					Author | {{x.author.first_name}} {{x.author.last_name}}
+				</p>
+			
 
-		<a href="{% url 'posts:detail' post_slug=x.slug %}" class="btn btn-primary">Read</a>
-		
+			<a href="{% url 'posts:detail' post_slug=x.slug %}" class="btn btn-primary">Read</a>
+			
+			<a href="{% url 'posts:post_update' post_slug=x.slug %}" class="btn btn-success">Update</a>
+			
+			<a href="{% url 'posts:post_delete' post_slug=x.slug %}" class="btn btn-danger">Delete</a>
 
-		<a href="{% url 'posts:post_update' post_slug=x.slug %}" class="btn btn-success">Update</a>
-		
-
-		<a href="{% url 'posts:post_delete' post_slug=x.slug %}" class="btn btn-danger">Delete</a>
-
+			</div>
 		</div>
-	</div>
 	</div>
 
 	{% empty %}
@@ -50,11 +51,9 @@
 	{% endfor %}
 
 
-	</div>
+</div>
 
-		<form class="form-group" action="{% url 'posts:post_list' %}" method="GET">
-			<input type="text" name="q" placeholder="Search..." value="{{request.GET.q}}">
-			<input type="submit" value="Search" class="btn btn-primary">
+	
 
 	<nav aria-label="Page navigation example">
 	  	<ul class="pagination justify-content-center">

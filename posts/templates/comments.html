@@ -1,0 +1,39 @@
+<br>
+<h4>Comments</h4>
+
+
+{% load comments %}
+{% load crispy_forms_tags %}
+
+{% get_comment_list for items as comments %}
+
+{% for entries in comments %}
+	
+	<div class="alert alert-info" role="alert"><b>{{entries.user}} said:</b> {{entries.comment|linebreaks}}
+	<p>posted {{entries.submit_date|timesince}}</p>
+	</div>
+
+{% endfor %}
+
+{% get_comment_form for items as form %}
+
+{% if not request.user.is_authenticated %}
+	please log in to share your comments
+{% else %}
+test
+<form action="{% comment_form_target %}" method="POST">
+	{% csrf_token %}
+
+	<input type="hidden" name="name" value="{{request.user.username}}">
+	<input type="hidden" name="email" value="{{request.user.email}}">
+	What your think is important to us...
+	<input type="text" name="comment" class="form-control input-lg">
+	{{form.content_type}}
+	{{form.object_pk}}
+	{{form.timestamp}}
+	{{form.security_hash}}
+	<br>
+	<input type="hidden" name="next" value="{{items.get_absolute_url}}">
+	<input type="submit" value="Submit" class="btn btn-outline-primary">
+</form>
+{% endif %}
