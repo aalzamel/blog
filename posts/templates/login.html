@@ -9,8 +9,13 @@
 		<form action="{% url 'posts:userlogin' %}" enctype="multipart/form-data" method="POST">
 			{% csrf_token %}
 			{{form|crispy}}
-			<input class="btn btn-primary" type="submit" value="login">
+			<input class="btn btn-outline-success" type="submit" value="login">
+		<a href="{% url 'github_login' %}" class="btn btn-outline-dark"><i class="fa fa-github-alt" aria-hidden="true"> Login using GitHub</i></a>
+
 		</form>
+
+
+
 	</div>
 
 {% endblock content %} 

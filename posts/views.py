@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Like
-from .forms import PostForm, UserSignUp, UserLogin
+from .forms import PostForm, UserSignUp, UserLogin, GoogleForm
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from urllib.parse import quote
@@ -8,6 +8,8 @@ from django.http import Http404, JsonResponse
 from django.utils import timezone
 from django.db.models import Q
 from django.contrib.auth import login, logout, authenticate
+import time
+
 
 def usersignup(request):
 	context = {}
@@ -167,11 +169,27 @@ def post_detail(request, post_slug):
 
 # 	return render(request, "post_create.html", context)
 
-# def lmgtfy(request):
-# 	base = "http://lmgtfy.com/?q="
-# 	search = ""
+def lmgtfy(request):
+	base = "http://lmgtfy.com/?q="
+	form = GoogleForm()
+	if request.method == "POST":
+		form = GoogleForm(request.POST or None)
+		if form.is_valid():
+			searchtxt = form.cleaned_data['searchtxt']
+			searchtxt = base+searchtxt
+			time.sleep(4)
+			return redirect(searchtxt)
+		else:
+			searchtxt = ""
+	else:
+		searchtxt = ""
+	
+	context = {
+		'searchtxt': searchtxt,
+		'form':form,
+		}
 
-# 	thelink = base+search
+	return render(request, "google.html", context)
 
 # Creating a post
 

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block heading %} Google That {% endblock heading %}
+
+{% block content %} 
+
+	<div class="postform">
+		<form action="{% url 'posts:lmgtfy' %}" enctype="multipart/form-data" method="POST">
+			{% csrf_token %}
+			{{form|crispy}}
+
+			<button id="noob" class="btn btn-primary btn-lg btn-block" type="submit" value="Search" onclick="noob_func()">Search for...</button>
+		</form>
+	</div>
+<script type="text/javascript">
+	
+
+
+function noob_func(e)
+{
+    $("#noob").text('');
+    $("#noob").append('<i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>');
+    $.ajax(
+        {
+            type:'GET',
+            url: '/help/',
+            error: function(){
+                console.log('error');
+            },
+            success: function(data){
+                console.log("Noob!");
+            },
+        }
+    );
+}
+
+
+
+</script>
+{% endblock content %} 

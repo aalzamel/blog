@@ -32,7 +32,9 @@
         <small><a class="nav-link disabled" href="#">logged in as: {{request.user}}</a></small>
       </li>        
       {% endif %}
-
+          <li class="nav-item form-inline">
+        <small><a class="nav-link disabled" href="{% url 'posts:lmgtfy' %}"><b>?</b></a></small>
+      </li>   
     <form class="form-inline my-2 my-lg-0" action="{% url 'posts:post_list' %}" method="GET">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"  type="text" name="q" value="{{request.GET.q}}">
       <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>

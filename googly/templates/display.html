@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+	
+{% block content %}
+
+<h2 class="blue">Looking for a place?</h2><br>
+<form action="{% url 'googly:place-search' %}" method="GET">
+	<div class="col-lg-12 nav-bar-bottom-mgn">
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Search for..." aria-label="Search for..." name="query">
+      <span class="input-group-btn">
+        <button class="btn btn-secondary" type="submit">Go!</button>
+      </span>
+    </div>
+  	</div>
+</form>
+<div>
+
+<table class="table">
+  <tr>
+    <th>Name</th>
+    <th>Address</th>
+    <th>Details</th>
+  </tr>
+  <tr>
+ {% for x in response.results %} 
+	<td>{{ x.name }} <br></td>
+	<td>{{ x.formatted_address }}</td>
+	<td>
+	<form action="{% url 'googly:place-detail' %}" method="GET">
+		<input type="hidden" name="place_id" value="{{x.place_id}}">
+		<input type="submit" value="Detail" class="btn btn-outline-primary">
+	</form>
+	</td>
+	</tr>
+{% endfor %}
+
+</table>
+
+</div>
+
+{% if response.next_page_token %}	
+	<form action="{% url 'googly:place-search' %}" method="GET">
+		<input type="hidden" name="nextpage" value="{{response.next_page_token}}">
+		<input type="submit" value="more ..." class="btn btn-outline-info">
+	</form>
+	<br>
+{% endif %}
+
+
+{% endblock content %}

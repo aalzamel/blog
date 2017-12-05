@@ -32,8 +32,13 @@ div.postform {
 	margin-top: 10px;
 }
 
+
 .nav-bar-bottom-mgn {
 	margin-bottom: 15px;
+}
+
+.button-bottom-mgn {
+	margin-bottom: 35px;
 }
 
 .nav-bar-top-mgn {
@@ -53,4 +58,8 @@ div.postform {
 	background-color: #ecf0f1;
 	padding: 10px 15px;
 	border-radius: 10px;
+}
+
+.blue {
+	color: #007bff;
 }

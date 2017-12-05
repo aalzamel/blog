@@ -13,5 +13,7 @@ urlpatterns = [
     url(r'^signup/$', views.usersignup, name="usersignup"),
     url(r'^login/$', views.userlogin, name="userlogin"),
     url(r'^logout/$', views.userlogout, name="userlogout"),
+    url(r'^google/$', views.lmgtfy, name="lmgtfy"),
+
 
 ]
